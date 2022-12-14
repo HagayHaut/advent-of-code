@@ -14,11 +14,12 @@ const stacks = Array(10)
 
 const stackIndexes = [1, 5, 9, 13, 17, 21, 25, 29, 33];
 
-inputStacks.forEach((row) => {
+for (let i = 7; i >= 0; i--) {
+    const row = inputStacks[i];
     stackIndexes.forEach((stackIndex, i) => {
-        if (row[stackIndex] !== " ") stacks[i + 1].unshift(row[stackIndex]);
+        if (row[stackIndex] !== " ") stacks[i + 1].push(row[stackIndex]);
     });
-});
+}
 
 const processMove = (s) => {
     const [move, amount, from, source, to, target] = s.split(" ");
