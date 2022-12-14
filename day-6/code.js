@@ -8,14 +8,13 @@ const stream = fs.readFileSync(
 let pt1Result;
 let pt2Result;
 
-const isStartOfPacketMarker = (section) => new Set(section).size === 4;
-const isStartOfMessageMarker = (section) => new Set(section).size === 14;
+const isXUnique = (section, x) => new Set(section).size === x;
 
 for (let i = 0; i < stream.length - 4; i++) {
-    if (!pt1Result && isStartOfPacketMarker(stream.slice(i, i + 4))) {
+    if (!pt1Result && isXUnique(stream.slice(i, i + 4), 4)) {
         pt1Result = i + 4;
     }
-    if (!pt2Result && isStartOfMessageMarker(stream.slice(i, i + 14))) {
+    if (!pt2Result && isXUnique(stream.slice(i, i + 14), 14)) {
         pt2Result = i + 14;
     }
 }
