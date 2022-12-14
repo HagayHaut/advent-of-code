@@ -38,34 +38,14 @@ const winLosePoints = plays
     .map(([_, winLoseDraw]) => scoreMap[winLoseDraw])
     .reduce(sum);
 
-// const getPlayFromInput = ([op, wld]) => {
-//     if (op === "A") {
-//         return wld === "X" ? 3 : wld === "Y" ? 1 : 2;
-//     } else if (op === "B") {
-//         return wld === "X" ? 1 : wld === "Y" ? 2 : 3;
-//     } else {
-//         return wld === "X" ? 2 : wld === "Y" ? 3 : 1;
-//     }
-// };
-
 const getPlayFromInput = ([op, wld]) => {
-    return op === "A"
-        ? wld === "X"
-            ? 3
-            : wld === "Y"
-            ? 1
-            : 2
-        : op === "B"
-        ? wld === "X"
-            ? 1
-            : wld === "Y"
-            ? 2
-            : 3
-        : wld === "X"
-        ? 2
-        : wld === "Y"
-        ? 3
-        : 1;
+    if (op === "A") {
+        return wld === "X" ? 3 : wld === "Y" ? 1 : 2;
+    } else if (op === "B") {
+        return wld === "X" ? 1 : wld === "Y" ? 2 : 3;
+    } else {
+        return wld === "X" ? 2 : wld === "Y" ? 3 : 1;
+    }
 };
 
 const shapePoints = plays.map(getPlayFromInput).reduce(sum);
