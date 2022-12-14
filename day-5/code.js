@@ -29,7 +29,7 @@ const pt1Stacks = getInitializeStacks();
 const pt2Stacks = getInitializeStacks();
 
 const processMove = (s) => {
-    const [move, amount, from, source, to, target] = s.split(" ");
+    const [, amount, , source, , target] = s.split(" ");
     return [amount, source, target].map(Number);
 };
 
@@ -43,14 +43,15 @@ moves.forEach((move) => {
     pt2Stacks[target].push(...pt2Stacks[source].splice(-amount));
 });
 
-const pt1Result = pt1Stacks
-    .slice(1)
-    .map((arr) => arr.at(-1))
-    .join("");
+const processResult = (stacks) => {
+    return stacks
+        .slice(1)
+        .map((arr) => arr.at(-1))
+        .join("");
+};
 
-const pt2Result = pt2Stacks
-    .slice(1)
-    .map((arr) => arr.at(-1))
-    .join("");
+const pt1Result = processResult(pt1Stacks);
+
+const pt2Result = processResult(pt2Stacks);
 
 console.log({ pt1Result, pt2Result });
