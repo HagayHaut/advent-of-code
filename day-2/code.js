@@ -1,9 +1,7 @@
 const fs = require("fs");
+const { join } = require("path");
 
-const fileContents = fs.readFileSync(
-    "/home/hagay/Development/advent-of-code/advent-of-code-2022/day-2/input.txt",
-    "utf-8"
-);
+const fileContents = fs.readFileSync(join(__dirname, "input.txt"), "utf-8");
 
 const plays = fileContents.split("\n").map((s) => s.split(" "));
 
