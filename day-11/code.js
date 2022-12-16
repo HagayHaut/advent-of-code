@@ -3,17 +3,6 @@ const { join } = require("path");
 
 const getInput = () => fs.readFileSync(join(__dirname, "input.txt"), "utf8");
 
-const getUnprocessedMonkeys = (input) => {
-    const lines = input.split("\n");
-    const unprocessedMonkeys = [];
-    for (let i = 0; i < lines.length; i += 7) {
-        unprocessedMonkeys.push(lines.slice(i, i + 6));
-    }
-    return unprocessedMonkeys;
-};
-
-const unprocessedMonkeys = getUnprocessedMonkeys(getInput());
-
 const processMonkey = (unprocessed) => {
     const id = +unprocessed[0][7];
     const items = unprocessed[1].slice(18).split(", ").map(Number);
@@ -24,6 +13,9 @@ const processMonkey = (unprocessed) => {
     return { id, items, operation, divisibleBy, ifTrue, ifFalse };
 };
 
-const monkeys = getUnprocessedMonkeys(getInput()).map(processMonkey);
+const monkeys = getInput()
+    .split("\n\n")
+    .map((unprocessed) => unprocessed.split("\n"))
+    .map(processMonkey);
 
 console.log(monkeys);
