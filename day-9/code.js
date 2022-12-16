@@ -60,6 +60,7 @@ const getTailDirection = () => {
 
 const part1 = () => {
     const lines = processInput(getInput());
+    console.log(lines);
 
     lines.forEach(([dir, count]) => {
         for (let i = 0; i < count; i++) {
@@ -71,4 +72,4 @@ const part1 = () => {
     return visited.size;
 };
 
-console.log(part1());
+part1();
