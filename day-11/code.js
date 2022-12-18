@@ -18,4 +18,40 @@ const monkeys = getInput()
     .map((unprocessed) => unprocessed.split("\n"))
     .map(processMonkey);
 
-console.log(monkeys);
+const increaseWorry = (worry, operation) => {
+    let [_, op, val] = operation;
+    val = val === "old" ? worry : +val;
+    return op === "+" ? worry + val : worry * val;
+};
+
+const decreaseWorry = (worry) => ~~(worry / 3);
+
+const part1 = () => {
+    const monkeyInspections = Array(8).fill(0);
+
+    for (let i = 0; i < 20; i++) {
+        monkeys.forEach(
+            ({ id, items, operation, divisibleBy, ifTrue, ifFalse }) => {
+                items.forEach((item) => {
+                    let worry = decreaseWorry(increaseWorry(item, operation));
+                    if (!(worry % divisibleBy)) {
+                        monkeys[ifTrue].items.push(worry);
+                    } else {
+                        monkeys[ifFalse].items.push(worry);
+                    }
+                    items.shift();
+                    monkeyInspections[id]++;
+                });
+            }
+        );
+    }
+
+    const pt1Result = monkeyInspections
+        .sort((a, z) => a - z)
+        .slice(-2)
+        .reduce((a, b) => a * b, 1);
+
+    console.log(pt1Result);
+};
+
+part1();
