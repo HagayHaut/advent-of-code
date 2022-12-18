@@ -36,10 +36,10 @@ const inAbyss = ([x, y], minX, maxX, minY, maxY) => {
 const getBoardBeforeScan = (minX, maxX, minY, maxY) => {
     return Array(maxY + 10)
         .fill()
-        .map((_, y) => {
+        .map((_, x) => {
             return Array(maxX + 10)
                 .fill()
-                .map((_, x) => {
+                .map((_, y) => {
                     return x === 100 && y === 0
                         ? "s"
                         : inAbyss([x, y], minX, maxX, minY, maxY)
@@ -50,7 +50,7 @@ const getBoardBeforeScan = (minX, maxX, minY, maxY) => {
 };
 
 const printBoard = (board) => {
-    console.log(board.map((row) => row.join("")).join("\n"));
+    console.log("\n" + board.map((row) => row.join("")).join("\n"));
 };
 
 const scanWall = (board, x1, y1, x2, y2) => {
@@ -82,14 +82,23 @@ const getScannedBoard = () => {
     return board;
 };
 
-const board = getScannedBoard();
+// const board = getScannedBoard();
+
+// for testing
+const board = fs
+    .readFileSync(join(__dirname, "input.txt"), "utf-8")
+    .split("\n")
+    .map((s) => s.split(""));
+
 const directions = [
-    [0, 1],
-    [-1, 1],
+    [1, 0],
+    [1, -1],
     [1, 1],
 ];
 
-const isBlocked = (x, y) => ["#", "O"].includes(board[x][y]);
+const isIB = (x, y) => x <= board.length && y <= board[0].length && x >= 0;
+
+const isBlocked = (x, y) => !isIB(y, x) || ["#", "O"].includes(board[x][y]);
 
 const sandIsStuck = (x, y) =>
     directions.every(([dx, dy]) => isBlocked(x + dx, y + dy));
@@ -107,15 +116,16 @@ const moveSandOnce = (x, y) => {
 };
 
 const dropSand = () => {
-    let [x, y] = [1, 100];
+    let [x, y] = [1, 80];
     board[x][y] = "O";
-    while (!sandIsStuck(x, y)) {
+    for (let i = 0; i < 9; i++) {
         const [dx, dy] = moveSandOnce(x, y);
-        x += dx;
-        y += dy;
+        const [xx, yy] = [x + dx, y + dy];
+        if (x === xx && y === yy) break;
+        x = xx;
+        y = yy;
     }
 };
 
-// dropSand();
-
+for (let i = 0; i < 1; i++) dropSand();
 printBoard(board);
