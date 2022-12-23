@@ -86,7 +86,7 @@ const getScannedBoard = () => {
 
 // for testing
 const board = fs
-    .readFileSync(join(__dirname, "input.txt"), "utf-8")
+    .readFileSync(join(__dirname, "testinput.txt"), "utf-8")
     .split("\n")
     .map((s) => s.split(""));
 
@@ -116,9 +116,9 @@ const moveSandOnce = (x, y) => {
 };
 
 const dropSand = () => {
-    let [x, y] = [1, 80];
+    let [x, y] = [1, 20];
     board[x][y] = "O";
-    for (let i = 0; i < 9; i++) {
+    for (let i = 0; i < 100; i++) {
         const [dx, dy] = moveSandOnce(x, y);
         const [xx, yy] = [x + dx, y + dy];
         if (x === xx && y === yy) break;
@@ -127,5 +127,6 @@ const dropSand = () => {
     }
 };
 
-for (let i = 0; i < 1; i++) dropSand();
-printBoard(board);
+for (let i = 0; i < 2; i++) {
+    printBoard(board);
+}
