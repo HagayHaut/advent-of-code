@@ -1,5 +1,6 @@
 const fs = require("fs");
 const { join } = require("path");
+const { listenerCount } = require("process");
 
 const getInput = () => fs.readFileSync(join(__dirname, "input.txt"), "utf8");
 
@@ -31,7 +32,37 @@ const processInput = (input) => {
     return { cube, firstMove, commands };
 };
 
+const getNextDirection = (currDir, turnDir) => {
+    if (currDir === "L") {
+        return turnDir === "L" ? "D" : "U";
+    }
+    if (currDir === "R") {
+        return turnDir === "L" ? "U" : "D";
+    }
+    if (currDir === "U") {
+        return turnDir === "L" ? "L" : "R";
+    }
+    return turnDir === "L" ? "R" : "L";
+};
+
+const directions = {
+    L: [0, -1],
+    R: [0, 1],
+    U: [-1, 0],
+    D: [1, 0],
+};
+
+const rowWrapPositions = [];
+const colWrapPositions = [];
+
 const getWraparoundPos = (r, c, dirKey) => {};
 
 const processed = processInput(getInput());
 const { cube, firstMove, commands } = processed;
+
+// top: first 50 start at row 100, rest at 0
+// left: first 100 start at col 50, rest 0
+// bottom: first 50 start length - 1, rest at length - 51
+// right: first
+
+console.log(cube[cube.length - 51]);
