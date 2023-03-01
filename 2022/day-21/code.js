@@ -15,16 +15,16 @@ const processInput = (input) => {
         const [key, value] = line.split(":");
         if (!isNaN(+value)) {
             // next line is for part2 only
-            if (key === "humn") continue;
+            // if (key === "humn") continue;
             defMonkeys.set(key, +value);
         } else {
             // if condition for part2 only
-            if (key === "root") {
-                const [key1, , key2] = value.slice(1).split(" ");
-                rootKey1 = key1;
-                rootKey2 = key2;
-                continue;
-            }
+            // if (key === "root") {
+            //     const [key1, , key2] = value.slice(1).split(" ");
+            //     rootKey1 = key1;
+            //     rootKey2 = key2;
+            //     continue;
+            // }
             undefMonkeys.set(key, value.slice(1).split(" "));
         }
     }
@@ -66,7 +66,7 @@ const part1 = () => {
     console.log(defMonkeys.get("root"));
 };
 
-// part1(); // answer: 62386792426088
+part1(); // answer: 62_386_792_426_088
 
 const trySolve = (defMonkeys, undefMonkeys) => {
     while (undefMonkeys.size) {
@@ -82,7 +82,7 @@ const part2 = () => {
     const { defMonkeys, undefMonkeys, rootKey1, rootKey2 } = processInput(
         getInput()
     );
-    let humanNum = 0;
+    let humanNum = -8_000;
     while (true) {
         const defCopy = new Map(defMonkeys);
         const undefCopy = new Map(undefMonkeys);
@@ -93,8 +93,9 @@ const part2 = () => {
             break;
         }
         humanNum++;
+        if (humanNum > 1_000_000_000_000) break;
     }
     console.log(humanNum);
 };
 
-part2();
+// part2();
