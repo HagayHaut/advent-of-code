@@ -1,23 +1,20 @@
 const fs = require("fs");
 const { join } = require("path");
 
-const getInput = () => fs.readFileSync(join(__dirname, "input.txt"), "utf-8");
+const input = fs.readFileSync(join(__dirname, "input.txt"), "utf-8");
 const sum = (a, b) => a + b;
 
 const processInput = (group) => {
-    const input = getInput();
     const groups = input.split('\n\n');
     return groups.map(group === 1 ? processPart1Group : processPart2Group);
 }
 
+// number of unique responses per group
 const processPart1Group = (group) => {
-    const uniqResponses = new Set();
-    group.split('\n').forEach(line => {
-        line.split('').forEach(resp => uniqResponses.add(resp));
-    })
-    return uniqResponses.size;
+    return new Set(group.split('\n').map(ln => ln.split('')).flat()).size;
 }
 
+// number of responses submitted by each member of group
 const processPart2Group = (group) => {
     const uniqsPerPerson = group.split('\n').map(line => new Set([...line]));
     return [...uniqsPerPerson[0]]
@@ -35,4 +32,7 @@ const part2 = () => {
     console.log(processInput(2).reduce(sum));
 }
 
+// part2: 3445
+
+part1();
 part2();
