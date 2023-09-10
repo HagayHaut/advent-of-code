@@ -12,10 +12,9 @@ function runProgram(program, noun, verb) {
         if (program[i] === 99) break;
         const val1 = program[program[i + 1]];
         const val2 = program[program[i + 2]];
-        const newVal = program[i] === 1
+        program[program[i + 3]] = program[i] === 1
             ? val1 + val2
             : val1 * val2;
-        program[program[i + 3]] = newVal;
     }
     return program[0];
 }
