@@ -1,3 +1,3 @@
-# Advent of Code 2022
+# Advent of Code
 
-Code for participating in 2022 [Advent of Code](https://adventofcode.com/).
+My [Advent of Code](https://adventofcode.com/) stuff.
