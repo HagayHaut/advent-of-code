@@ -27,6 +27,7 @@ for (let noun = 0; noun <= 99; noun++) {
     for (let verb = 0; verb <= 99; verb++) {
         if (runProgram(input.split(',').map(Number), noun, verb) === TARGET_AT_ADDRESS_0) {
             part2 = 100 * noun + verb;
+            break;
         }
     }
 }
