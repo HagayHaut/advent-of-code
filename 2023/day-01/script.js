@@ -4,13 +4,15 @@ const { join } = require("path");
 const input = fs.readFileSync(join(__dirname, "input.txt"), "utf-8");
 const lines = input.split('\n');
 
-function addDigitsPart1(line){
-    const digits = [...line].filter(c => /\d/.test(c));
+function addDigits(digits) {
     return +(digits[0] + digits.at(-1));
 }
 
-function part1() {
-    const calibrationValues = lines.map(addDigitsPart1);
+function addDigitsPart1(line){
+    return addDigits([...line].filter(c => /\d/.test(c)));
+}
+
+function solve(calibrationValues) {
     return calibrationValues.reduce((a, b) => a + b, 0);
 }
 
@@ -26,7 +28,7 @@ const numberMap = {
     nine: '9',
 };
 
-// console.log(part1());
+console.log(solve(lines.map(addDigitsPart1)));
 // 55621
 
 function addDigitsPart2(line) {
@@ -36,13 +38,8 @@ function addDigitsPart2(line) {
     for (match of matches) {
         digits.push(numberMap[match[1]] ?? match[1])
     }
-    return +(digits[0] + digits.at(-1));
+    return addDigits(digits);
 }
 
-function part2() {
-    const calibrationValues = lines.map(addDigitsPart2);
-    return calibrationValues.reduce((a, b) => a + b, 0);
-}
-
-// console.log(part2());
+console.log(solve(lines.map(addDigitsPart2)));
 // 53592
