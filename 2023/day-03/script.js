@@ -82,4 +82,63 @@ function part1() {
     return sum;
 }
 
-console.log(part1());
+// console.log(part1());
+// 529618
+
+function getNeighboringNumbers(r, c) {
+    const neighboringNumbers = [];
+    if (isDigit(grid[r][c - 1])) {
+        neighboringNumbers.push(getFullNumber(r, c - 1));
+    }
+    if (isDigit(grid[r][c + 1])) {
+        neighboringNumbers.push(getFullNumber(r, c + 1));
+    }
+    const topNumbers = getNumbersTouchingTopOrBottom(r - 1, c);
+    const bottomNumbers = getNumbersTouchingTopOrBottom(r + 1, c);
+    return [
+        ...neighboringNumbers,
+        ...topNumbers,
+        ...bottomNumbers
+    ];
+};
+
+function getNumbersTouchingTopOrBottom(r, c) {
+    if (isDigit(grid[r][c])) return [getFullNumber(r, c)];
+    const numbers = [];
+    if (isDigit(grid[r][c - 1])) numbers.push(getFullNumber(r, c - 1));
+    if (isDigit(grid[r][c + 1])) numbers.push(getFullNumber(r, c + 1));
+    return numbers;
+}
+
+function getFullNumber(r, c) {
+    let c1 = c - 1, c2 = c + 1;
+    let fullNumber = grid[r][c];
+    while (isDigit(grid[r][c1])) {
+        fullNumber = grid[r][c1--] + fullNumber;
+    }
+    while (isDigit(grid[r][c2])) {
+        fullNumber += grid[r][c2++];
+    }
+    return +fullNumber;
+}
+
+function part2() {
+    let sum = 0;
+
+    for (let r = 0; r < height; r++) {
+        for (let c = 0; c < width; c++) {
+            if (grid[r][c] === '*') {
+                const neighboringNumbers = getNeighboringNumbers(r, c);
+                if (neighboringNumbers.length === 2) {
+                    console.log(neighboringNumbers)
+                    sum += (neighboringNumbers[0] * neighboringNumbers[1]);
+                }
+            }
+        }
+    }
+
+    return sum;
+}
+
+console.log(part2());
+// 77509019
