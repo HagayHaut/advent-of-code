@@ -25,5 +25,15 @@ function part1() {
     return numberOfWaysToWin.reduce((a, b) => a * b, 1);
 }
 
-console.log(part1());
+// console.log(part1());
 // 1731600
+
+function part2() {
+    const raceTime = +raceTimes.map(String).join('');
+    const distanceToBeat = +raceDistances.map(String).join('');
+    const possibleDistances = calculateDistances(raceTime);
+    return possibleDistances.filter(d => d > distanceToBeat).length;
+}
+
+// console.log(part2());
+// 40087680
