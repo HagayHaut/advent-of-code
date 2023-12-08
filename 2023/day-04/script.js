@@ -22,11 +22,7 @@ function processCard(line) {
 function getCardWinningsPart1(card) {
     let winningNumberCount = getWinningNumberCount(card);
     if (!winningNumberCount) return 0;
-    let winnings = 1;
-    while (winningNumberCount-- > 1) {
-        winnings *= 2;
-    }
-    return winnings;
+    return 2**(winningNumberCount - 1);
 }
 
 function getWinningNumberCount(card) {
@@ -41,7 +37,7 @@ function part1() {
         .reduce((a, b) => a + b, 0);
 }
 
-// console.log(part1());
+console.log(part1());
 // 18619
 
 function part2() {
