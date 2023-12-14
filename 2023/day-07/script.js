@@ -19,6 +19,22 @@ const cardRanks = {
     '2': 1
 };
 
+const cardRanksPart2 = {
+    A: 13, 
+    K: 12, 
+    Q: 11, 
+    T: 10, 
+    '9': 9, 
+    '8': 8, 
+    '7': 7, 
+    '6': 6, 
+    '5': 5, 
+    '4': 4, 
+    '3': 3, 
+    '2': 2,
+    J: 1
+};
+
 const handRanks = {
     five: 7,
     four: 6,
@@ -49,13 +65,18 @@ function breakTie(hand1, hand2) {
         i++;
         j++;
     }
-    // console.log({
-    //     hands: [hand1, hand2], 
-    //     result: cardRanks[hand1[i]] - cardRanks[hand2[j]], 
-    //     i, 
-    //     j
-    // })
+    
     return cardRanks[hand1[i]] - cardRanks[hand2[j]];
+}
+
+function breakTiePart2(hand1, hand2) {
+    let i = 0, j = 0;
+    while (i < 4 && hand1[i] === hand2[j]) {
+        i++;
+        j++;
+    }
+    
+    return cardRanksPart2[hand1[i]] - cardRanksPart2[hand2[j]];
 }
 
 // using the .sort() method, need a callback 
@@ -119,7 +140,7 @@ function isPair(hand) {
 
 function getFrequencies(hand) {
     return Object.values(
-        hand.cards.reduce((acc, cur) => {
+        hand.reduce((acc, cur) => {
             acc[cur] ??= 0;
             acc[cur]++;
             return acc;
@@ -139,5 +160,63 @@ function part1() {
     return winnings.reduce((a, b) => a + b, 0);
 }
 
-console.log(part1());
+// console.log(part1());
 // 249726565
+
+function getHandTypePart2(hand) {
+    return hand.cards.includes('J')
+        ? findBestHandType(hand.cards)
+        : getHandType(hand.cards);
+}
+
+function compareHandsPart2(hand1, hand2) {
+    const hand1Type = getHandTypePart2(hand1);
+    const hand2Type = getHandTypePart2(hand2);
+
+    if (hand1Type === hand2Type) {
+        return breakTiePart2(hand1.cards, hand2.cards);
+    }
+
+    return handRanks[hand1Type] - handRanks[hand2Type];
+}
+
+const cards = ['1','2','3','4','5','6','7','8','9','T', 'J', 'Q','K','A'];
+
+function findBestHandType(hand) {
+    let currentBestHandType = 'high';
+
+    function backtrack(path, i) {
+        if (i === 5) {
+            const currentHandType = getHandType(path);
+            if (handRanks[currentHandType] > handRanks[currentBestHandType]) {
+                currentBestHandType = currentHandType;
+            }
+            return;
+        }
+        if (hand[i] === 'J') {
+            for (const card of cards) {
+                path.push(card);
+                backtrack(path, i + 1);
+                path.pop();
+            }
+        }
+    }
+
+    backtrack([], 0);
+
+    return currentBestHandType;
+}
+
+function part2() {
+    const hands = processInput();
+    hands.sort(compareHandsPart2);
+
+    const winnings = hands.map((hand, i) => {
+        const rank = i + 1;
+        return hand.bid * rank;
+    });
+
+    return winnings.reduce((a, b) => a + b, 0);
+}
+
+console.log(part2());
